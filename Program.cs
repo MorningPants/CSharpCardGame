@@ -1,21 +1,23 @@
 ﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Rules of the Game:");
-Console.WriteLine("A deck of cards is separated by suits into four decks, and the spades are discarded.");
-Console.WriteLine("Both players are dealt one card from each suit face up, and hold a second card of each suit in their hand.");
-Console.WriteLine("Each round, both players secretly choose a card from their hand to play.");
-Console.WriteLine("Its value is added to your face up card of matching suit.");
-Console.WriteLine("Face cards are all worth 10 points.");
-Console.WriteLine("An extra five points are granted if your suit has an advantage over your opponent's suit.");
-Console.WriteLine("Hearts have an advantage over diamonds, diamonds over clubs, and clubs over hearts.");
-Console.WriteLine("The player with the higher score wins the round.");
-Console.WriteLine("The used cards are then replaced with new ones of the same suit from the deck.");
-Console.WriteLine("Unused cards remain and can be chosen in future rounds.");
-Console.WriteLine("At the end of the game, the player who has won the most rounds wins the game.");
-Console.WriteLine("The game ends when a card cannot be replaced due to an empty deck");
+// Console.WriteLine("Rules of the Game:");
+// Console.WriteLine("A deck of cards is separated by suits into four decks, and the spades are discarded.");
+// Console.WriteLine("Both players are dealt one card from each suit face up, and hold a second card of each suit in their hand.");
+// Console.WriteLine("Each round, both players secretly choose a card from their hand to play.");
+// Console.WriteLine("Its value is added to your face up card of matching suit.");
+// Console.WriteLine("Face cards are all worth 10 points.");
+// Console.WriteLine("An extra five points are granted if your suit has an advantage over your opponent's suit.");
+// Console.WriteLine("Hearts have an advantage over diamonds, diamonds over clubs, and clubs over hearts.");
+// Console.WriteLine("The player with the higher score wins the round.");
+// Console.WriteLine("The used cards are then replaced with new ones of the same suit from the deck.");
+// Console.WriteLine("Unused cards remain and can be chosen in future rounds.");
+// Console.WriteLine("At the end of the game, the player who has won the most rounds wins the game.");
+// Console.WriteLine("The game ends when a card cannot be replaced due to an empty deck");
 
 
 List<Deck> decks = new List<Deck>();
 List<string> suits = new List<string>() { "Hearts", "Diamonds", "Clubs" };
+Player user = new Player(1);
+Player computer = new Player(2);
 
 void SetUpGame()
 {
@@ -34,9 +36,48 @@ void SetUpGame()
         deck.Cards = deck.Cards.OrderBy(x => Guid.NewGuid()).ToList();
         decks.Add(deck);
     }
+    //
+
+
+    foreach (Deck deck in decks)
+    {
+        user.Hand.Add(deck.Cards[0]);
+        user.Play.Add(deck.Cards[1]);
+        computer.Hand.Add(deck.Cards[2]);
+        computer.Play.Add(deck.Cards[3]);
+        deck.Cards.RemoveRange(0, 4);
+    }
+}
+
+void displayCards(Player player)
+{
+    foreach (Card card in player.Play)
+    {
+        Console.WriteLine(card.Name + " of " + card.Suit);
+    }
+}
+
+void displayHand(Player player)
+{
+    foreach (Card card in player.Hand)
+    {
+        Console.WriteLine(card.Name + " of " + card.Suit);
+    }
+}
+
+void displayBoard()
+{
+    Console.WriteLine("Your cards:");
+    displayCards(user);
+    Console.WriteLine("Your hand:");
+    displayHand(user);
+    Console.WriteLine("Computer's cards:");
+    displayCards(computer);
 }
 
 SetUpGame();
+
+displayBoard();
 
 class Card
 {
