@@ -1,0 +1,15 @@
+C:\Users\andyg\Code\C#CardGame\bin\Debug\net6.0\C#CardGame.exe
+C:\Users\andyg\Code\C#CardGame\bin\Debug\net6.0\C#CardGame.deps.json
+C:\Users\andyg\Code\C#CardGame\bin\Debug\net6.0\C#CardGame.runtimeconfig.json
+C:\Users\andyg\Code\C#CardGame\bin\Debug\net6.0\C#CardGame.dll
+C:\Users\andyg\Code\C#CardGame\bin\Debug\net6.0\C#CardGame.pdb
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.csproj.AssemblyReference.cache
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.AssemblyInfoInputs.cache
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.AssemblyInfo.cs
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.csproj.CoreCompileInputs.cache
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.dll
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\refint\C#CardGame.dll
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.pdb
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\C#CardGame.genruntimeconfig.cache
+C:\Users\andyg\Code\C#CardGame\obj\Debug\net6.0\ref\C#CardGame.dll
