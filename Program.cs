@@ -31,14 +31,13 @@ void SetUpGame()
         deck.Add(new Card(suit, 10, "Jack"));
         deck.Add(new Card(suit, 10, "Queen"));
         deck.Add(new Card(suit, 10, "King"));
-        deck.Add(new Card(suit, 10, "Ace"));
+        deck.Add(new Card(suit, 1, "Ace"));
         //shuffle the deck
         deck.Cards = deck.Cards.OrderBy(x => Guid.NewGuid()).ToList();
         decks.Add(deck);
     }
-    //
 
-
+    //deal the cards
     foreach (Deck deck in decks)
     {
         user.Hand.Add(deck.Cards[0]);
@@ -73,11 +72,157 @@ void displayBoard()
     displayHand(user);
     Console.WriteLine("Computer's cards:");
     displayCards(computer);
+    Console.WriteLine("Deck size:");
+    foreach (Deck deck in decks)
+    {
+        Console.WriteLine(deck.Name + ": " + deck.Cards.Count);
+    }
+    Console.WriteLine("Score:" + user.RoundScore + " - " + computer.RoundScore);
 }
+
+
+void playRound(){
+
+    displayBoard();
+
+        
+    Console.WriteLine("Choose a card to play:");
+    Console.WriteLine("1: " + user.Hand[0].Name + " of " + user.Hand[0].Suit);
+    Console.WriteLine("2: " + user.Hand[1].Name + " of " + user.Hand[1].Suit);
+    Console.WriteLine("3: " + user.Hand[2].Name + " of " + user.Hand[2].Suit);
+
+    int userChoice = Convert.ToInt32(Console.ReadLine()) - 1;
+
+    Console.WriteLine("You chose " + user.Hand[userChoice].Name + " of " + user.Hand[userChoice].Suit);
+
+    int computerChoice = new Random().Next(0, computer.Hand.Count);
+
+
+    int userPoints = 0;
+    int computerPoints = 0;
+    Card userPlay;
+    Card computerPlay;
+
+    foreach (Card card in user.Play)
+    {
+        if (card.Suit == user.Hand[userChoice].Suit)
+        {
+            userPlay = card;
+            userPoints += card.Points + user.Hand[userChoice].Points;
+            Console.WriteLine("This adds to your " + card.Name + " of " + card.Suit + " for a total of " + userPoints + " points.");
+        }
+    }
+
+    Console.WriteLine("Computer chose " + computer.Hand[computerChoice].Name + " of " + computer.Hand[computerChoice].Suit);
+
+    foreach (Card card in computer.Play)
+    {
+        if (card.Suit == computer.Hand[computerChoice].Suit)
+        {
+            computerPlay = card;
+            computerPoints += card.Points + computer.Hand[computerChoice].Points;
+            Console.WriteLine("This adds to the computer's " + card.Name + " of " + card.Suit + " for a total of " + computerPoints + " points.");
+        }
+    }
+    //check for advantage
+    if (user.Hand[userChoice].Suit == "Hearts" && computer.Hand[computerChoice].Suit == "Diamonds" ||
+    user.Hand[userChoice].Suit == "Diamonds" && computer.Hand[computerChoice].Suit == "Clubs" ||
+    user.Hand[userChoice].Suit == "Clubs" && computer.Hand[computerChoice].Suit == "Hearts")
+    {
+        userPoints += 5;
+        Console.WriteLine("Your suit advantage gives 5 points.");
+    }
+    else if (computer.Hand[computerChoice].Suit == "Hearts" && user.Hand[userChoice].Suit == "Diamonds" ||
+    computer.Hand[computerChoice].Suit == "Diamonds" && user.Hand[userChoice].Suit == "Clubs" ||
+    computer.Hand[computerChoice].Suit == "Clubs" && user.Hand[userChoice].Suit == "Hearts")
+    {
+        computerPoints += 5;
+        Console.WriteLine("The opponent's suit advantage gives them 5 points.");
+    }
+
+    if (userPoints > computerPoints)
+    {
+        Console.WriteLine("You win this round " + userPoints + " to " + computerPoints + "!");
+        user.RoundScore++;
+    }
+    else if (computerPoints > userPoints)
+    {
+        Console.WriteLine("You lose this round " + userPoints + " to " + computerPoints + "!");
+        computer.RoundScore++;
+    }
+    else
+    {
+        Console.WriteLine("It's a tie- " + userPoints + " to " + computerPoints + "!");
+    }
+
+
+    //select the deck of the same suit used by the player
+    Deck userDeck = decks.Find(x => x.Name == user.Hand[userChoice].Suit);
+    Deck computerDeck = decks.Find(x => x.Name == computer.Hand[computerChoice].Suit);
+    
+    //remove cards from hand and play
+    user.Hand.RemoveAt(userChoice);
+    user.Play.RemoveAt(userChoice);
+    computer.Hand.RemoveAt(computerChoice);
+    computer.Play.RemoveAt(computerChoice);
+
+    //if there are no more cards in the deck, end the game
+    if (userDeck.Cards.Count <= 2 || computerDeck.Cards.Count <= 2)
+    {
+        Console.WriteLine("Game over!");
+        if(userDeck.Cards.Count <= 1)
+        {
+            Console.WriteLine("The " + userDeck.Name + " deck is empty.");
+        }
+        if(computerDeck.Cards.Count <= 1)
+        {
+            Console.WriteLine("The " + computerDeck.Name + " deck is empty.");
+        }
+        if (user.RoundScore > computer.RoundScore)
+        {
+            Console.WriteLine("You win!");
+        }
+        else if (computer.RoundScore > user.RoundScore)
+        {
+            Console.WriteLine("You lose.");
+        }
+        else
+        {
+            Console.WriteLine("It's a tie!");
+        }
+        Console.WriteLine("Your score: " + user.RoundScore);
+        Console.WriteLine("Computer's score: " + computer.RoundScore);
+        Console.ReadLine();
+        Environment.Exit(0);
+    }
+
+    //add cards to play
+    user.Play.Add(userDeck.Cards[0]);
+    user.Hand.Add(userDeck.Cards[1]);
+    userDeck.Cards.RemoveRange(0, 2);
+    computer.Play.Add(computerDeck.Cards[0]);
+    computer.Hand.Add(computerDeck.Cards[1]);
+    computerDeck.Cards.RemoveRange(0, 2);
+    
+    playRound();
+
+}
+
 
 SetUpGame();
 
-displayBoard();
+
+playRound();
+
+
+
+
+
+
+
+
+
+
 
 class Card
 {
